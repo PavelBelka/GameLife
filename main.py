@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 from gameDisplay import GameDisplay
 
 WIDTH = 360
@@ -6,31 +7,25 @@ HEIGHT = 480
 FPS = 30
 SCALE = 10
 
-def main():
+def main(disp):
     running = True
+    zero = get_list(disp.cell_width, disp.cell_height)
+    print(zero)
+    disp.draw_cell(zero)
+    pygame.display.flip()
     while running:
         #display.fill((0, 0, 0))
-        pygame.display.flip()
+
+        #pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
     pygame.quit()
 
-def fill(screen_color, bcolor=[200, 200, 200]):
-    """
-    Заливает окно цветом
-    :param screen_color: цвет окна
-    :param bcolor: цвет границ
-    """
-    global screen
-    surface = screen
-    surface.fill(screen_color)
-    w, h = surface.get_size()
-    for i in range(0, w):
-        pygame.draw.line(surface, bcolor, [i * SCALE, 0], [i * SCALE, h * SCALE])
-    for i in range(0, h):
-        pygame.draw.line(surface, bcolor, [0, i * SCALE], [w * SCALE, i * SCALE])
-
+def get_list(width, height):
+    np.random.seed(1234)
+    data = np.random.randint(0, 2, (height, width))
+    return data
 
 def draw_point(surface, color, pos):
     """
@@ -47,4 +42,4 @@ if __name__ == '__main__':
     screen = GameDisplay(640, 480 , 20)
     screen.draw_grid()
     clock.tick(FPS)
-    main()
+    main(screen)

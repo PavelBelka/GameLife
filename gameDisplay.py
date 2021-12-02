@@ -20,6 +20,13 @@ class GameDisplay:
             pygame.draw.line(self.screen, pygame.Color('black'), [0, i], [self.width, i])
         pygame.display.flip()
 
+    def draw_cell(self, matrix):
+        for i in range(0, self.cell_height):
+            for j in range(0, self.cell_width):
+                if matrix[i][j] == 1:
+                    pygame.draw.rect(self.screen, pygame.Color('green'), (self.cell_size * j, self.cell_size * i,
+                                                                          self.cell_size, self.cell_size))
+
 
 
 
