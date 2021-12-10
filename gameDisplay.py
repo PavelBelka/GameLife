@@ -1,5 +1,10 @@
 import pygame
 
+EDGE_WIDTH = 20
+START_POSX = 20
+START_POSY = 20
+LINE_WIDTH = 2
+
 class GameDisplay:
     def __init__(self, width = 640, height = 480, cell_size = 10):
         self.width = width
@@ -10,22 +15,24 @@ class GameDisplay:
         pygame.display.set_caption("Game of Life")
         self.screen.fill(pygame.Color('white'))
 
-        self.cell_width = self.width // self.cell_size
-        self.cell_height = self.height // self.cell_size
-
-    def draw_grid(self):
-        for i in range(0, self.width, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color('black'), [i, 0], [i, self.height])
-        for i in range(0, self.height, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color('black'), [0, i], [self.width, i])
-        pygame.display.flip()
+        self.cell_width = (self.width - 2 * EDGE_WIDTH) // self.cell_size
+        self.cell_height = (self.height - 2 * EDGE_WIDTH) // self.cell_size
 
     def draw_cell(self, matrix):
+        self.screen.fill(pygame.Color('white'))
+        for i in range(0, self.height, self.cell_size):
+            pygame.draw.line(self.screen, pygame.Color('black'), [START_POSX, START_POSY + i],
+                             [self.width - START_POSX, START_POSY + i], LINE_WIDTH)
+        for i in range(0, self.width, self.cell_size):
+            pygame.draw.line(self.screen, pygame.Color('black'), [START_POSX + i, START_POSY],
+                             [START_POSX + i, self.height - START_POSY], LINE_WIDTH)
         for i in range(0, self.cell_height):
             for j in range(0, self.cell_width):
                 if matrix[i][j] == 1:
-                    pygame.draw.rect(self.screen, pygame.Color('green'), (self.cell_size * j, self.cell_size * i,
-                                                                          self.cell_size, self.cell_size))
+                    pygame.draw.rect(self.screen, pygame.Color('green'),
+                                     [START_POSX + self.cell_size * j + LINE_WIDTH,
+                                      START_POSY + self.cell_size * i + LINE_WIDTH,
+                                      self.cell_size - LINE_WIDTH, self.cell_size - LINE_WIDTH])
 
 
 
