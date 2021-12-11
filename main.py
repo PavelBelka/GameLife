@@ -9,7 +9,7 @@ FPS = 1
 
 def main(disp):
     running = True
-    start_world = World(disp.cell_width, disp.cell_height, 180, 10122021)
+    start_world = World(disp.cell_width, disp.cell_height, 210, 10122021)
     print(start_world.get_agents_matrix())
     while running:
         for event in pygame.event.get():

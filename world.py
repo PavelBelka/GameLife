@@ -8,21 +8,14 @@ class World:
         self.cy = y
         self.agents = num_agents
         self.seed = random_seed
-        self.map_ag = np.zeros((self.cy, self.cx), dtype= np.int)
+        self.map_ag = np.zeros((self.cy, self.cx), dtype= np.bool)
+        self.map_food = np.random.randint(0, 100,(self.cy, self.cx), dtype= np.int)
         self.agent_list = []
         random.seed(self.seed)
         for a in range(0, num_agents):
-            agent = Agent(random.randint(0, self.cx - 1), random.randint(0, self.cy - 1), 1, 0)
+            agent = Agent(random.randint(0, self.cx - 1), random.randint(0, self.cy - 1), self, 1, 0)
             self.agent_list.append(agent)
             self.map_ag[agent.iy, agent.ix] = 1
-
-    def check_impossibility(self, x, y):
-        check_x = check_y = False
-        if 0 < x < self.cx:
-            check_x = True
-        if 0 < y < self.cy:
-            check_y = True
-        return check_x, check_y
 
     def rule(self):
         for item in self.agent_list:
@@ -69,7 +62,7 @@ class World:
                         break
                 if free_cell:
                     item.is_parent = 0
-                    agent = Agent(random_x, random_y, 1, 0)
+                    agent = Agent(random_x, random_y, self, 1, 0)
                     self.map_ag[random_y, random_x] = 1
                     self.agent_list.append(agent)
             if item.is_live:
