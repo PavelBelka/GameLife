@@ -6,29 +6,13 @@ class Agent:
         self.world = world
         self.is_live = is_live
         self.is_parent = is_parent
+        self.is_moved = 0
         self.psi_health = 10
         self.phy_health = 10
 
     def calc_neighbour_count(self, matrix):
         count = 0
-        if self.ix == 0:
-            x_zero = self.ix
-            x_max = self.ix + 2
-        elif self.ix == (self.world.cx - 1):
-            x_zero = self.ix - 2
-            x_max = self.ix
-        else:
-            x_zero = self.ix - 1
-            x_max = self.ix + 1
-        if self.iy == 0:
-            y_zero = self.iy
-            y_max = self.iy + 2
-        elif self.iy == (self.world.cy - 1):
-            y_zero = self.iy - 2
-            y_max = self.iy
-        else:
-            y_zero = self.iy - 1
-            y_max = self.iy + 1
+        x_zero, x_max, y_zero, y_max = self.world.point_matrix_scanning(self.ix, self.iy)
         for i in range(y_zero, y_max + 1):
             for j in range(x_zero, x_max + 1):
                 if j == self.ix and i == self.iy:
@@ -38,4 +22,11 @@ class Agent:
                         if p.ix == j and p.iy == i and p.is_live == 1:
                             count += 1
         return count
+
+    def logic(self, matrix):
+        cnt_agents = self.calc_neighbour_count(matrix)
+        if self.phy_health < 5:
+            pass
+        if cnt_agents == 0:
+            pass
 
