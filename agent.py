@@ -55,6 +55,15 @@ class Agent:
             else:
                 self.direction_of_moved[1] = 0
 
+    def agent_food_motion(self):
+        x_zero, x_max, y_zero, y_max = self.world.point_matrix_scanning(self.ix, self.iy)
+        for i in range(y_zero, y_max + 1):
+            for j in range(x_zero, x_max + 1):
+                if self.world.map_food[i][j] != 0 and self.world.map_ag[i][j] != 1:
+                    self.purpose_coord[0] = j
+                    self.purpose_coord[1] = i
+                    self.agent_motion()
+                    self.is_moved = 1
 
     def logic(self, matrix):
         cnt_agents = self.calc_neighbour_count(matrix)
@@ -72,5 +81,9 @@ class Agent:
         if cnt_agents > 0:
             self.is_moved = 0
             self.purpose = 0
+            if self.phy_health < 9:
+                val = self.world.get_food(self.ix, self.iy)
+                if val == 0:
+                    self.agent_food_motion()
         return cnt_agents
 

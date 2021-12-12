@@ -6,10 +6,13 @@ PSY_COST_OF_POPULATION = 1
 PSY_COST_OF_BIRTH = 2
 PHY_COST_OF_MOVED = 1
 PHY_COST_OF_BIRTH = 4
+PHY_COST_OF_TICK = 1
 AMOUNT_OF_FOOD = 10
 AMOUNT_GET_FOOD = 2
 MINIMAL_NEIGHBOUR = 1
 MAXIMAL_NEIGHBOUR = 4
+MINIMAL_NEIGHBOUR_BIRTH = 3
+MAXIMAL_NEIGHBOUR_BIRTH = 4
 
 class World:
     def __init__(self, x, y, num_agents, random_seed):
@@ -29,9 +32,10 @@ class World:
     def rule(self):
         for item in self.agent_list:
             count = item.logic(self.map_ag)
+            item.phy_health -= PHY_COST_OF_TICK
             if count > MAXIMAL_NEIGHBOUR or count < MINIMAL_NEIGHBOUR:
                 item.psi_health -= PSY_COST_OF_POPULATION
-            elif 5 > count > 3:
+            elif MAXIMAL_NEIGHBOUR_BIRTH > count > MINIMAL_NEIGHBOUR_BIRTH:
                 item.is_parent = 1
             if item.psi_health <= 0 or item.phy_health <= 0:
                 item.is_live = 0
