@@ -9,7 +9,8 @@ PHY_COST_OF_BIRTH = 4
 PHY_COST_OF_TICK = 1
 AMOUNT_OF_FOOD = 20
 AMOUNT_GET_FOOD = 2
-MINIMAL_NEIGHBOUR = 1
+UPDATE_FOOD = 1
+MINIMAL_NEIGHBOUR = 0
 MAXIMAL_NEIGHBOUR = 4
 MINIMAL_NEIGHBOUR_BIRTH = 3
 MAXIMAL_NEIGHBOUR_BIRTH = 4
@@ -75,6 +76,12 @@ class World:
             hand_over = 0
         return hand_over
 
+    def update_food(self):
+        for i in range(0, self.cy):
+            for j in range(0, self.cx):
+                if self.map_food[i][j] == 0:
+                    self.map_food[i][j] = random.randint(0, AMOUNT_OF_FOOD)
+
     def update(self):
         for item in self.agent_list:
             if item.is_parent == 1:
@@ -106,6 +113,8 @@ class World:
             else:
                 self.map_ag[item.iy, item.ix] = 0
                 self.agent_list.remove(item)
+        if UPDATE_FOOD == 1:
+            self.update_food()
 
     def get_agents_matrix(self):
         return self.map_ag

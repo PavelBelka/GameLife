@@ -1,6 +1,6 @@
 import math
 
-AGENT_PHY_HEATH = 10
+AGENT_PHY_HEATH = 20
 AGENT_PSY_HEATH = 20
 
 class Agent:

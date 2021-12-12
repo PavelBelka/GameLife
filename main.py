@@ -1,15 +1,14 @@
 import pygame
-import numpy as np
 from gameDisplay import GameDisplay
 from world import World
 
 WIDTH = 360
 HEIGHT = 480
-FPS = 1
+FPS = 4
 
 def main(disp):
     running = True
-    start_world = World(disp.cell_width, disp.cell_height, 60, 10122021)
+    start_world = World(disp.cell_width, disp.cell_height, 100, 10122021)
     print(start_world.get_agents_matrix())
     while running:
         for event in pygame.event.get():
@@ -21,11 +20,6 @@ def main(disp):
         start_world.update()
         clock.tick(FPS)
     pygame.quit()
-
-def get_list(width, height):
-    np.random.seed(1234)
-    data = np.random.randint(0, 2, (height, width))
-    return data
 
 if __name__ == '__main__':
     pygame.init()
