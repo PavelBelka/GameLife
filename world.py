@@ -6,6 +6,10 @@ PSY_COST_OF_POPULATION = 1
 PSY_COST_OF_BIRTH = 2
 PHY_COST_OF_MOVED = 1
 PHY_COST_OF_BIRTH = 4
+AMOUNT_OF_FOOD = 10
+AMOUNT_GET_FOOD = 2
+MINIMAL_NEIGHBOUR = 1
+MAXIMAL_NEIGHBOUR = 4
 
 class World:
     def __init__(self, x, y, num_agents, random_seed):
@@ -14,7 +18,7 @@ class World:
         self.agents = num_agents
         self.seed = random_seed
         self.map_ag = np.zeros((self.cy, self.cx), dtype= np.bool)
-        self.map_food = np.random.randint(0, 100,(self.cy, self.cx), dtype= np.int)
+        self.map_food = np.random.randint(0, AMOUNT_OF_FOOD,(self.cy, self.cx), dtype= np.int)
         self.agent_list = []
         random.seed(self.seed)
         for a in range(0, num_agents):
@@ -24,14 +28,11 @@ class World:
 
     def rule(self):
         for item in self.agent_list:
-            count = item.calc_neighbour_count(self.map_ag)
-            if count > 3 or count < 2:
+            count = item.logic(self.map_ag)
+            if count > MAXIMAL_NEIGHBOUR or count < MINIMAL_NEIGHBOUR:
                 item.psi_health -= PSY_COST_OF_POPULATION
-            elif count == 3:
-                item.is_live = 1
+            elif 5 > count > 3:
                 item.is_parent = 1
-            elif count == 2:
-                item.is_live = 1
             if item.psi_health <= 0 or item.phy_health <= 0:
                 item.is_live = 0
             if item.is_moved != 0:
@@ -61,7 +62,7 @@ class World:
     def get_food(self, x, y):
         value = self.map_food[y, x]
         if value != 0 and value != 1:
-            self.map_food[y, x] -= 2
+            self.map_food[y, x] -= AMOUNT_GET_FOOD
             hand_over = 2
         elif value == 1:
             self.map_food[y, x] -= 1
@@ -88,6 +89,14 @@ class World:
                     agent = Agent(random_x, random_y, self, 1, 0)
                     self.map_ag[random_y, random_x] = 1
                     self.agent_list.append(agent)
+            if item.is_moved:
+                if item.direction_of_moved[0] != 0:
+                    self.map_ag[item.iy, item.ix] = 0
+                    item.ix += item.direction_of_moved[0]
+                elif item.direction_of_moved[1] != 0:
+                    self.map_ag[item.iy, item.ix] = 0
+                    item.iy += item.direction_of_moved[1]
+                self.map_ag[item.iy, item.ix] = 1
             if item.is_live:
                 continue
             else:
