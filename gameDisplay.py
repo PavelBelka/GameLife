@@ -29,12 +29,12 @@ class GameDisplay:
                              [START_POSX + i, self.height - START_POSY], LINE_WIDTH)
         for i in range(0, self.cell_height):
             for j in range(0, self.cell_width):
-                if f_matrix[i][j] > 5:
+                if f_matrix[i][j] > 10:
                     pygame.draw.rect(self.screen, pygame.Color('green2'),
                                      [START_POSX + self.cell_size * j + LINE_WIDTH,
                                       START_POSY + self.cell_size * i + LINE_WIDTH,
                                       self.cell_size - LINE_WIDTH, self.cell_size - LINE_WIDTH])
-                elif 0 < f_matrix[i][j] <= 5:
+                elif 0 < f_matrix[i][j] <= 10:
                     pygame.draw.rect(self.screen, pygame.Color('green4'),
                                      [START_POSX + self.cell_size * j + LINE_WIDTH,
                                       START_POSY + self.cell_size * i + LINE_WIDTH,

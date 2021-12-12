@@ -1,7 +1,7 @@
 import math
 
 AGENT_PHY_HEATH = 10
-AGENT_PSY_HEATH = 10
+AGENT_PSY_HEATH = 20
 
 class Agent:
     def __init__(self, x, y, world, is_live, is_parent):
