@@ -42,6 +42,8 @@ class Agent:
     def agent_motion(self):
         axis_x = self.purpose_coord[0] - self.ix
         axis_y = self.purpose_coord[1] - self.iy
+        if axis_x != 0 and axis_y != 0:
+            pass
         if axis_x > 0:
             self.direction_of_moved[0] = 1
         elif axis_x < 0:
