@@ -1,3 +1,5 @@
+AGENT_PHY_HEATH = 10
+AGENT_PSY_HEATH = 10
 
 class Agent:
     def __init__(self, x, y, world, is_live, is_parent):
@@ -7,8 +9,8 @@ class Agent:
         self.is_live = is_live
         self.is_parent = is_parent
         self.is_moved = 0
-        self.psi_health = 10
-        self.phy_health = 10
+        self.psi_health = AGENT_PSY_HEATH
+        self.phy_health = AGENT_PHY_HEATH
 
     def calc_neighbour_count(self, matrix):
         count = 0
@@ -26,7 +28,13 @@ class Agent:
     def logic(self, matrix):
         cnt_agents = self.calc_neighbour_count(matrix)
         if self.phy_health < 5:
-            pass
+            while self.phy_health != AGENT_PHY_HEATH:
+                val = self.world.get_food(self.ix, self.iy)
+                if val == 0:
+                    break
+                self.phy_health += val
+            if self.phy_health > AGENT_PHY_HEATH:
+                self.phy_health = AGENT_PHY_HEATH
         if cnt_agents == 0:
             pass
 

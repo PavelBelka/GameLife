@@ -7,8 +7,6 @@ PSY_COST_OF_BIRTH = 2
 PHY_COST_OF_MOVED = 1
 PHY_COST_OF_BIRTH = 4
 
-
-
 class World:
     def __init__(self, x, y, num_agents, random_seed):
         self.cx = x
@@ -60,6 +58,18 @@ class World:
             minimum_y = y - 1
         return minimum_x, maximum_x, minimum_y, maximum_y
 
+    def get_food(self, x, y):
+        value = self.map_food[y, x]
+        if value != 0 and value != 1:
+            self.map_food[y, x] -= 2
+            hand_over = 2
+        elif value == 1:
+            self.map_food[y, x] -= 1
+            hand_over = 1
+        else:
+            hand_over = 0
+        return hand_over
+
     def update(self):
         for item in self.agent_list:
             if item.is_parent == 1:
@@ -86,3 +96,6 @@ class World:
 
     def get_agents_matrix(self):
         return self.map_ag
+
+    def get_food_matrix(self):
+        return self.map_food

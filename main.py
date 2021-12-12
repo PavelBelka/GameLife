@@ -15,7 +15,7 @@ def main(disp):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        disp.draw_cell(start_world.get_agents_matrix())
+        disp.draw_cell(start_world.get_agents_matrix(), start_world.get_food_matrix())
         pygame.display.flip()
         start_world.rule()
         start_world.update()
