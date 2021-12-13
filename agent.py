@@ -1,4 +1,5 @@
 import math
+import random
 
 AGENT_PHY_HEATH = 20
 AGENT_PSY_HEATH = 20
@@ -42,20 +43,25 @@ class Agent:
     def agent_motion(self):
         axis_x = self.purpose_coord[0] - self.ix
         axis_y = self.purpose_coord[1] - self.iy
+        direction = 0
         if axis_x != 0 and axis_y != 0:
-            pass
-        if axis_x > 0:
-            self.direction_of_moved[0] = 1
-        elif axis_x < 0:
-            self.direction_of_moved[0] = -1
+            direction = random.randint(0, 2)
+        elif axis_x != 0 and axis_y == 0:
+            direction = 1
+        elif axis_x == 0 and axis_y != 0:
+            direction = 0
+        if direction == 1:
+            self.direction_of_moved[1] = 0
+            if axis_x > 0:
+                self.direction_of_moved[0] = 1
+            else:
+                self.direction_of_moved[0] = -1
         else:
             self.direction_of_moved[0] = 0
             if axis_y > 0:
                 self.direction_of_moved[1] = 1
-            elif axis_y < 0:
-                self.direction_of_moved[1] = -1
             else:
-                self.direction_of_moved[1] = 0
+                self.direction_of_moved[1] = -1
 
     def agent_food_motion(self):
         x_zero, x_max, y_zero, y_max = self.world.point_matrix_scanning(self.ix, self.iy)
